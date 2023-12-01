@@ -435,7 +435,7 @@ with DAG(
     description='only for testing',
     schedule_interval=timedelta(days=30),
     start_date=datetime(2023, 12, 1),
-    catchup=False,
+    catchup=True,
     tags=['NYC Hygiene'],
 ) as dag:
 
