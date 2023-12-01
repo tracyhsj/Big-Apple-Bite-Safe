@@ -25,7 +25,7 @@ from sklearn.metrics import balanced_accuracy_score, classification_report, conf
 import numpy as np
 import itertools
 
-import xgboost as xgb
+import xgboost as xgbm
 
 
 # Airflow imports
@@ -382,7 +382,7 @@ def train_models(ti):
     X_test = ti.xcom_pull(key='X_test', task_ids='process')
     y_test = ti.xcom_pull(key='y_test', task_ids='process')
 
-    xgb = xgb.XGBClassifier(
+    xgb = xgbm.XGBClassifier(
     n_estimators=300,
     learning_rate=0.05,
     max_depth=15,
