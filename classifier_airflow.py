@@ -430,7 +430,7 @@ default_args = {
 
 
 with DAG(
-    'yfinance',
+    'classifier',
     default_args=default_args,
     description='only for testing',
     schedule_interval=timedelta(days=30),
