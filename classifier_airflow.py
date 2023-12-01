@@ -71,7 +71,7 @@ def fetch_data(ti):
 # define the prosessing_data function to process data
 
 def process_data(ti):
-    ti.xcom_pull(key='original_df', task_ids='fetch_data')
+    ti.xcom_pull(key='original_df', task_ids='fetch')
     ### 1. Filling score
 
     df['score'] = pd.to_numeric(df['score'], errors='coerce')
@@ -378,10 +378,10 @@ def process_data(ti):
 # train the model using historical data and predict 
 def train_models(ti):
 
-    X_train = ti.xcom_pull(key='X_train', task_ids='process_data')
-    y_train = ti.xcom_pull(key='y_train', task_ids='process_data')
-    X_test = ti.xcom_pull(key='X_test', task_ids='process_data')
-    y_test = ti.xcom_pull(key='y_test', task_ids='process_data')
+    X_train = ti.xcom_pull(key='X_train', task_ids='process')
+    y_train = ti.xcom_pull(key='y_train', task_ids='process')
+    X_test = ti.xcom_pull(key='X_test', task_ids='process')
+    y_test = ti.xcom_pull(key='y_test', task_ids='process')
 
     xgb = xgb.XGBClassifier(
     n_estimators=300,
@@ -453,14 +453,14 @@ with DAG(
     )
 
     t2 = PythonOperator(
-        task_id='train',
+        task_id='process',
         python_callable=process_data,
         provide_context=True,
         dag=dag
     )
 
     t3 = PythonOperator(
-        task_id='errors',
+        task_id='train',
         python_callable=train_models,
         provide_context=True,
         dag=dag
