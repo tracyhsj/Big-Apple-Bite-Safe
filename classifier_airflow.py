@@ -261,7 +261,7 @@ def process_data(ti):
     # In[10]:
 
 
-    df = df[['grade','score', 'action', 'num_inspections', 'violation_percentage',
+    df = df[['score', 'action', 'num_inspections', 'violation_percentage',
             'inspection_year', 'inspection_month',
             'percentage_critical', 'percentage_not_critical',
             'critical_to_non_critical_ratio',
