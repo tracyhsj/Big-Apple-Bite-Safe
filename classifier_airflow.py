@@ -8,7 +8,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from imblearn.over_sampling import RandomOverSampler
 from datetime import datetime, timedelta
-import yfinance as yf
 import pandas as pd
 import joblib
 import joblib
