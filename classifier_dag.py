@@ -12,6 +12,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from imblearn.over_sampling import RandomOverSampler
+from datetime import datetime, timedelta
 
 
 import itertools
@@ -20,7 +21,7 @@ from sklearn.metrics import balanced_accuracy_score, classification_report, conf
 import numpy as np
 import itertools
 
-import xgboost as xgb
+import xgboost as xgbm
 from imblearn.over_sampling import SMOTE
 
 from airflow import DAG
@@ -343,7 +344,7 @@ def train_predict():
     X_train, y_train = smote.fit_resample(X_train, y_train)
 
 
-    xgb = xgb.XGBClassifier(
+    xgb = xgbm.XGBClassifier(
         n_estimators=300,
         learning_rate=0.05,
         max_depth=15,
