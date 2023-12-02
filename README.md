@@ -2,7 +2,7 @@
 
 Group: Big Apple Bite Safe
 
-Teams:
+Team:
 Isa Wang(yw3886)
 Tracy Hu(sh4355)
 Karl Liu(wl2916)
