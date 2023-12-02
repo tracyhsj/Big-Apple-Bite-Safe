@@ -1,6 +1,6 @@
 # Big-Apple-Bite-Safe
 
-All hosted on Google Cloud Platform
+All hosted on Google Cloud Platform's Virtual Machine (Compute Engine)
 
 Airflow:
 http://35.202.94.98:8080/
