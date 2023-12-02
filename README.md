@@ -6,10 +6,10 @@ Teams:
 Isa Wang(yw3886)
 Tracy Hu(sh4355)
 Karl Liu(wl2916)
+<br><br>
 
 All hosted on Google Cloud Platform's Virtual Machine (Compute Engine)
 
-<br><br>
 Airflow:
 http://35.202.94.98:8080/
 
