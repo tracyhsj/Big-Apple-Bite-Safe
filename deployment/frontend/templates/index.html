@@ -138,6 +138,22 @@
             </div>
         {% endif %}
 
+        <!-- Display Latest record for insights -->
+        {% if latest_record %}
+            <h3>Latest Record Details:</h3>
+            <table>
+                {% for key, value in latest_record.items() %}
+                    <tr>
+                        <td><strong>{{ key }}</strong></td>
+                        <td>{{ value }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No latest record data available.</p>
+        {% endif %}
+
+
     <div class="dba-list">
         <h3>List of Restaurants:</h3>
         <p>Tips:<br>
@@ -145,6 +161,9 @@
             1. To quickly find restaurants with their partial names, use the in-page search (Ctrl+F). And yes, this list is ready for some 'copy-pasta' — a little food humor for you!<br>
             2. Please note that a few restaurants might not yield results, as they were not included in our initial training data, impacting label precision and subsequent predictions.
         </p>
+
+
+
         <div style="display: flex; flex-wrap: wrap;">
             {% for dba in sorted_dba %}
                 <div style="flex: 0 0 50%; box-sizing: border-box;">

@@ -36,6 +36,25 @@ def encode_input(input_df):
             input_df[col] = le.transform(input_df[col])
     return input_df
 
+def get_latest_record(restaurant_name, df):
+    restaurant_df = df[df['dba'] == restaurant_name]
+
+    # select the latest record
+    latest_record = restaurant_df.iloc[-1]
+
+    # keep only columns we want to display
+    columns_to_keep = ['score', 'inspection_year', 'inspection_month', 
+                       'percentage_critical', 'percentage_not_critical', 
+                       'critical_to_non_critical_ratio', 'boro', 
+                       'cuisine_description',
+                       'prev_critical', 'critical_flag']
+
+    latest_record = latest_record[columns_to_keep]
+
+    return latest_record.to_dict()
+
+
+
 # API endpoints
 @app.route('/')
 def index(): # homepage
@@ -61,12 +80,15 @@ def predict():
     # encode w/ label encoder
     encoded_aggregated_df = encode_input(aggregated_df.drop(['critical_flag'], axis=1))
 
+    # get latest record/past ratios to show insights
+    latest_record = get_latest_record(dba_input, df)
+
     # make prediction using the model
     prediction = model.predict(encoded_aggregated_df)
     prediction_text = 'Critical Violation' if prediction[0] == 1 else 'Not Critical Violation/ No violation'
 
     # display the result
-    return render_template('index.html', dba_input=dba_input, prediction_text=prediction_text, num_records=num_records, sorted_dba=sorted_dba)
+    return render_template('index.html', dba_input=dba_input, prediction_text=prediction_text, num_records=num_records, sorted_dba=sorted_dba, latest_record=latest_record)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
