@@ -2,9 +2,6 @@
 # coding: utf-8
 
 # # Import libraries
-
-# In[1]:
-
 import joblib
 import requests
 import pandas as pd
@@ -29,7 +26,6 @@ from airflow.operators.python_operator import PythonOperator
 
 # # Pull all data into df
 
-# In[2]:
 def process_data():
     soda = "https://data.cityofnewyork.us/resource/43nn-pn8j.json"
 
@@ -59,9 +55,6 @@ def process_data():
     df = pd.DataFrame(all_data)
 
     # # Handle empty data
-
-    # In[3]:
-
 
     ### 1. Filling score
 
@@ -113,15 +106,10 @@ def process_data():
 
     # # sort by earliest to latest
 
-    # In[4]:
-
-
     df = df.sort_values(by=['inspection_date'])
 
 
     # # Agg data
-
-    # In[5]:
 
     ### 1. break inspection date
 
@@ -129,9 +117,6 @@ def process_data():
     df['inspection_year'] = df['inspection_date'].dt.year
     df['inspection_month'] = df['inspection_date'].dt.month
     df['inspection_day'] = df['inspection_date'].dt.day
-
-
-    # In[6]:
 
     ### 2. Violation_percentage (the percentage of PAST records of this restaurant having a violation, 
         # out of all its PAST records) -> df['violation_percentage']
@@ -146,8 +131,6 @@ def process_data():
     # Calculate violation percentage
     df.loc[df['num_inspections'] == 0, 'violation_percentage'] = 0 # set the 'violation_percentage' to 0, if there weren't any past violations
     df.loc[df['num_inspections'] != 0, 'violation_percentage'] = df['cumulative_violations'] / df['num_inspections'] # basic cal if there were past violations
-
-    # In[7]:
 
     ### 3. Percentage_critical, Percentage_not_critical, Critical_to_non_critical_ratio (out of all PAST records of this restaurant)
 
@@ -237,17 +220,6 @@ def process_data():
 
     # # keep only selected features + target
 
-
-
-    # In[9]:
-
-
-    # df = df.drop_duplicates(subset='camis', keep='last').copy()
-
-
-    # In[10]:
-
-
     df = df[['score', 'action', 'num_inspections', 'violation_percentage',
              'inspection_year', 'inspection_month',
              'percentage_critical', 'percentage_not_critical',
@@ -275,7 +247,6 @@ def process_data():
 
 # # Label the categoricals
 
-# In[11]:
 def train_predict():
     df = pd.read_csv('processed_data.csv')
 
@@ -290,8 +261,6 @@ def train_predict():
     # Save the LabelEncoder dictionary
     joblib.dump(le_dict, 'label_encoders.pkl')
 
-
-    # In[12]:
     """# 4. Data splitting and scaling
 
     ## Use newest record for each restaurant as the testing data; every older record as training data
@@ -331,7 +300,6 @@ def train_predict():
 
     # 5. Handle Class Imbalance using Oversampling
 
-
     # Initialize SMOTE with desired sampling strategy and random state
     smote = SMOTE(random_state=512)
 
@@ -365,18 +333,14 @@ def train_predict():
     print('XGBoost Train Accuracy Accuracy: ', train_accuracy, '%')
     print('XGBoost Test Accuracy Accuracy: ', test_accuracy, '%')
 
-    '''
-    with open('rf_accuracy.txt', 'w') as file:
-        file.write(f'Random Forest Train Accuracy: {train_accuracy}%\n')
-        file.write(f'Random Forest Test Accuracy: {test_accuracy}%\n')
-    '''
-
     # Print classification report:
     print(classification_report(y_test, y_pred_test_xgb))
 
     # Save the model to a file
     joblib.dump(xgb, 'model.pkl')
 
+
+## Dag Implementation
 
 default_args = {
     'owner': 'bigapple',
