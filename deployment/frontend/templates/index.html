@@ -145,14 +145,20 @@
                 {% for key, value in latest_record.items() %}
                     <tr>
                         <td><strong>{{ key }}</strong></td>
-                        <td>{{ value }}</td>
+                        <td>
+                            {{ value }}
+                            {% if key == 'score' %}
+                                (Note: 0 to 13 is an A, 14 to 27 points is a B, and 28 or more points is a C)
+                            {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
             </table>
         {% else %}
-            <p>No latest record data available.</p>
+            
         {% endif %}
 
+        <p>The accuracy of this model is ~92%.</p>
 
     <div class="dba-list">
         <h3>List of Restaurants:</h3>
@@ -161,7 +167,6 @@
             1. To quickly find restaurants with their partial names, use the in-page search (Ctrl+F). And yes, this list is ready for some 'copy-pasta' — a little food humor for you!<br>
             2. Please note that a few restaurants might not yield results, as they were not included in our initial training data, impacting label precision and subsequent predictions.
         </p>
-
 
 
         <div style="display: flex; flex-wrap: wrap;">
