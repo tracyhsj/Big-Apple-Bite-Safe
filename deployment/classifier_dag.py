@@ -206,11 +206,6 @@ def process_data():
 
     # Remove Outliers for: num_inspections, score, critical_to_non_critical_ratio, num_critical
     #drop the lowest 1% and the highest 99%
-    # 1. violation_code_freq
-    # 2. score
-    # 3. critical_to_non_critical_ratio
-    # 4. violation_code_freq_by_camis
-    # 5. inspection_year
 
     # 1. violation_code_freq
     # 2. score
